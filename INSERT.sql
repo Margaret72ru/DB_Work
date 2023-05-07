@@ -72,7 +72,9 @@ INSERT INTO "HomeWork".genre_author (genre_id,author_id) VALUES
 	 (3,2),
 	 (5,3),
 	 (7,1),
-	 (8,4);
+	 (8,4),
+	 (1,9),
+	 (4,8);
 INSERT INTO "HomeWork".song ("Name",duration,album_id) VALUES
 	 ('A Place in This World',202,1),
 	 ('Cold as You',241,1),
