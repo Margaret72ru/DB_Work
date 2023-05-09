@@ -31,8 +31,7 @@ join song s on s.song_id = ams.song_id
 join album al on al.album_id = s.album_id 
 join album_author aa on aa.album_id = al.album_id 
 join author a on a.author_id = aa.author_id 
-where a."Name" = 'Led Zeppelin'
-;
+where a."Name" = 'Led Zeppelin';
 
 
 -- Названия альбомов, в которых присутствуют исполнители более чем одного жанра
@@ -42,8 +41,7 @@ left join album_author aa on aa.album_id = al.album_id
 left join author a on a.author_id = aa.author_id
 left join genre_author ga on ga.author_id = aa.author_id
 where ga.author_id = a.author_id and 
-(select count(gga.genre_id) from genre_author gga where gga.author_id = ga.author_id group by gga.author_id) > 1
-;
+(select count(gga.genre_id) from genre_author gga where gga.author_id = ga.author_id group by gga.author_id) > 1;
 
 
 -- Наименования треков, которые не входят в сборники
@@ -62,6 +60,12 @@ where s.duration = (select min(s.duration) from song s);
 
 
 -- Названия альбомов, содержащих наименьшее количество треков
-select al."Name" from album al
+select al."Name" 
+from album al
 join song s on s.album_id = al.album_id 
-where s.song_id = (select count(s.song_id) from song s);
+group by al."Name"
+having count(*) = (
+	select count(s.song_id) from song s
+	group by s.song_id
+	order by 1
+	limit 1);
